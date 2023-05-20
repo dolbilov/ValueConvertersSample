@@ -1,20 +1,55 @@
-<Window xmlns="https://github.com/avaloniaui"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:vm="using:ValueConvertersSample.ViewModels"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-        x:Class="ValueConvertersSample.Views.MainWindow"
-        x:DataType="vm:MainWindowViewModel"
-        Icon="/Assets/avalonia-logo.ico"
-        Title="ValueConvertersSample">
+<Window
+    Icon="/Assets/avalonia-logo.ico"
+    Padding="5"
+    Title="ValueConvertersSample"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    mc:Ignorable="d"
+    x:Class="ValueConvertersSample.Views.MainWindow"
+    x:DataType="vm:MainWindowViewModel"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:conv="clr-namespace:ValueConvertersSample.Converters"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:vm="using:ValueConvertersSample.ViewModels"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <Window.Resources>
+        <conv:MathAddConverter x:Key="MathAddConverter" />
+        <x:Decimal x:Key="MyConverterParameter">2</x:Decimal>
+    </Window.Resources>
 
     <Design.DataContext>
-        <!-- This only sets the DataContext for the previewer in an IDE,
-             to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
-        <vm:MainWindowViewModel/>
+        <vm:MainWindowViewModel />
     </Design.DataContext>
 
-    <TextBlock Text="{Binding Greeting}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+    <TabControl>
+        <TabItem Header="IValueConverter">
+            <Grid ColumnDefinitions="Auto, 5, *" RowDefinitions="Auto, 5, Auto">
+                <TextBlock
+                    Grid.Column="0"
+                    Grid.Row="0"
+                    Text="Number1"
+                    VerticalAlignment="Center" />
+                <NumericUpDown
+                    Grid.Column="2"
+                    Grid.Row="0"
+                    Padding="8"
+                    Value="{Binding Number1}" />
 
+                <TextBlock
+                    Grid.Column="0"
+                    Grid.Row="2"
+                    Text="Sum"
+                    VerticalAlignment="Center" />
+                <NumericUpDown
+                    Grid.Column="2"
+                    Grid.Row="2"
+                    Padding="8"
+                    Value="{Binding Number1, Converter={StaticResource MathAddConverter}, ConverterParameter={StaticResource MyConverterParameter}}" />
+            </Grid>
+        </TabItem>
+
+        <TabItem Header="IMultiValueConverter" />
+    </TabControl>
 </Window>

@@ -1,6 +1,23 @@
-﻿namespace ValueConvertersSample.ViewModels;
+﻿using ReactiveUI;
+
+namespace ValueConvertersSample.ViewModels;
 
 public class MainWindowViewModel : ViewModelBase
 {
-    public string Greeting => "Welcome to Avalonia!";
+    #region Fields
+
+    private decimal? _number1 = 2;
+
+    #endregion
+
+
+    #region Properties
+
+    public decimal? Number1
+    {
+        get => _number1;
+        set => this.RaiseAndSetIfChanged(ref _number1, value);
+    }
+
+    #endregion
 }
